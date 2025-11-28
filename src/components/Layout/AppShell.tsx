@@ -1,14 +1,13 @@
-import { useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useAuth } from '../../lib/authContext';
-import { AuthModal } from '../Auth';
 
 interface AppShellProps {
   children: ReactNode;
+  onOpenAuth: () => void;
 }
 
-export function AppShell({ children }: AppShellProps) {
+export function AppShell({ children, onOpenAuth }: AppShellProps) {
   const { user, signOut, loading } = useAuth();
-  const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
     <div className="min-h-screen bg-background py-8 px-4">
@@ -35,7 +34,7 @@ export function AppShell({ children }: AppShellProps) {
                   </>
                 ) : (
                   <button
-                    onClick={() => setShowAuthModal(true)}
+                    onClick={onOpenAuth}
                     className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
                   >
                     Entrar / Cadastrar
@@ -60,11 +59,6 @@ export function AppShell({ children }: AppShellProps) {
           &copy; {new Date().getFullYear()} GigaCandanga. Todos os direitos reservados.
         </footer>
       </div>
-
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
-      />
     </div>
   );
 }

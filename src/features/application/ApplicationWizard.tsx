@@ -137,7 +137,11 @@ function recordToFormData(record: ApplicationRecord): ApplicationFormData {
   };
 }
 
-export function ApplicationWizard() {
+interface ApplicationWizardProps {
+  onOpenAuth?: () => void;
+}
+
+export function ApplicationWizard({ onOpenAuth }: ApplicationWizardProps) {
   const [currentStep, setCurrentStep] = useState<Step>('welcome');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -276,7 +280,7 @@ export function ApplicationWizard() {
   const renderStep = () => {
     switch (currentStep) {
       case 'welcome':
-        return <StepWelcome onStart={() => setCurrentStep('dados')} />;
+        return <StepWelcome onStart={() => setCurrentStep('dados')} onOpenAuth={onOpenAuth || (() => {})} />;
       case 'dados':
         return <StepDadosPessoais />;
       case 'formacao':
