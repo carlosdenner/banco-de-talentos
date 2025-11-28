@@ -4,6 +4,10 @@
  */
 export const ADMIN_EMAILS = [
   'carlosdenner@gmail.com',
+  'isadora.lima@gigacandanga.net.br',
+  'paulo.angelo@gigacandanga.net.br',
+  'andre.drummond@gigacandanga.net.br',
+  'rh@gigacandanga.net.br',
 ] as const;
 
 export function isAdminEmail(email: string | undefined | null): boolean {
