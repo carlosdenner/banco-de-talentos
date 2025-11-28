@@ -36,6 +36,9 @@ export type ApplicationFormData = {
   extra_info?: string;
   how_did_you_hear: string;
   how_did_you_hear_other?: string;
+
+  // CV Upload
+  cv_url?: string;
 };
 
 export type ApplicationDbPayload = {
@@ -64,6 +67,13 @@ export type ApplicationDbPayload = {
   extra_info: string | null;
   how_did_you_hear: string;
   how_did_you_hear_other: string | null;
+  cv_url: string | null;
+  user_id: string | null;
+};
+
+export type ApplicationRecord = ApplicationDbPayload & {
+  id: string;
+  created_at: string;
 };
 
 export const INTEREST_AREAS_OPTIONS = [

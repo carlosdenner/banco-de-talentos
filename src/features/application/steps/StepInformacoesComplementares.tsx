@@ -1,11 +1,12 @@
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextInput, TextArea, RadioGroup } from '../../../components/FormFields';
+import { TextInput, TextArea, RadioGroup, FileUpload } from '../../../components/FormFields';
 import type { ApplicationFormData } from '../types';
 import { HOW_DID_YOU_HEAR_OPTIONS } from '../types';
 
 export function StepInformacoesComplementares() {
-  const { register, control, formState: { errors }, watch } = useFormContext<ApplicationFormData>();
+  const { register, control, formState: { errors }, watch, setValue } = useFormContext<ApplicationFormData>();
   const howDidYouHear = watch('how_did_you_hear');
+  const cvUrl = watch('cv_url');
 
   const howDidYouHearOptions = [
     ...HOW_DID_YOU_HEAR_OPTIONS.map(o => ({ value: o, label: o })),
@@ -17,6 +18,12 @@ export function StepInformacoesComplementares() {
       <h2 className="text-xl font-semibold text-gray-900 mb-6">
         Informações Complementares
       </h2>
+
+      <FileUpload
+        label="Anexar Currículo (CV)"
+        value={cvUrl}
+        onChange={(url) => setValue('cv_url', url || undefined)}
+      />
 
       <TextArea
         label="Por fim, fique à vontade para adicionar algo mais ou compartilhar informações adicionais"

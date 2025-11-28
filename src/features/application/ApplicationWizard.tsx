@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { z } from 'zod';
 import { Stepper } from '../../components/Stepper';
@@ -20,8 +20,9 @@ import {
   stepDetalhesExperienciasSchema,
   stepInformacoesComplementaresSchema,
 } from './validation';
-import type { ApplicationFormData, ApplicationDbPayload } from './types';
+import type { ApplicationFormData, ApplicationDbPayload, ApplicationRecord } from './types';
 import { supabase } from '../../lib/supabaseClient';
+import { useAuth } from '../../lib/authContext';
 
 type Step = 'welcome' | 'dados' | 'formacao' | 'areas' | 'experiencias' | 'detalhes' | 'complementares' | 'sucesso';
 
@@ -100,6 +101,39 @@ function transformToDbPayload(data: ApplicationFormData): ApplicationDbPayload {
     extra_info: data.extra_info || null,
     how_did_you_hear: data.how_did_you_hear === 'Outro' ? data.how_did_you_hear_other || 'Outro' : data.how_did_you_hear,
     how_did_you_hear_other: data.how_did_you_hear === 'Outro' ? data.how_did_you_hear_other || null : null,
+    cv_url: data.cv_url || null,
+    user_id: null, // Will be set in onSubmit
+  };
+}
+
+function recordToFormData(record: ApplicationRecord): ApplicationFormData {
+  return {
+    full_name: record.full_name,
+    birth_date: record.birth_date,
+    email: record.email,
+    whatsapp: record.whatsapp,
+    city: record.city,
+    institution: record.institution,
+    course: record.course,
+    current_period: record.current_period,
+    study_shift: record.study_shift,
+    graduation_month: record.graduation_month || undefined,
+    graduation_year: record.graduation_year || undefined,
+    interest_areas: record.interest_areas,
+    interest_other: record.interest_other || undefined,
+    motivation: record.motivation,
+    contributions: record.contributions,
+    tools: record.tools || undefined,
+    has_experience: record.has_experience,
+    experience_type: record.experience_type || undefined,
+    experience_org: record.experience_org || undefined,
+    experience_period: record.experience_period || undefined,
+    experience_activities: record.experience_activities || undefined,
+    experience_learnings: record.experience_learnings || undefined,
+    extra_info: record.extra_info || undefined,
+    how_did_you_hear: record.how_did_you_hear,
+    how_did_you_hear_other: record.how_did_you_hear_other || undefined,
+    cv_url: record.cv_url || undefined,
   };
 }
 
@@ -107,6 +141,9 @@ export function ApplicationWizard() {
   const [currentStep, setCurrentStep] = useState<Step>('welcome');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [existingApplicationId, setExistingApplicationId] = useState<string | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const { user } = useAuth();
 
   const methods = useForm<ApplicationFormData>({
     defaultValues,
@@ -115,6 +152,30 @@ export function ApplicationWizard() {
 
   const { handleSubmit, trigger, watch, reset } = methods;
   const hasExperience = watch('has_experience');
+
+  // Load existing application for logged-in users
+  useEffect(() => {
+    async function loadExistingApplication() {
+      if (!user) return;
+      
+      const { data, error } = await supabase
+        .from('applications')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (!error && data) {
+        setExistingApplicationId(data.id);
+        setIsEditMode(true);
+        reset(recordToFormData(data as ApplicationRecord));
+        setCurrentStep('dados'); // Skip welcome for edit mode
+      }
+    }
+    
+    loadExistingApplication();
+  }, [user, reset]);
 
   const currentStepIndex = STEP_ORDER.indexOf(currentStep);
   const totalSteps = 7; // Excluding welcome and success
@@ -163,10 +224,24 @@ export function ApplicationWizard() {
 
     try {
       const payload = transformToDbPayload(data);
+      payload.user_id = user?.id || null;
       
-      const { error } = await supabase
-        .from('applications')
-        .insert(payload);
+      let error;
+      
+      if (isEditMode && existingApplicationId) {
+        // Update existing application
+        const result = await supabase
+          .from('applications')
+          .update(payload)
+          .eq('id', existingApplicationId);
+        error = result.error;
+      } else {
+        // Insert new application
+        const result = await supabase
+          .from('applications')
+          .insert(payload);
+        error = result.error;
+      }
 
       if (error) {
         console.error('Supabase error:', error);
@@ -282,7 +357,7 @@ export function ApplicationWizard() {
                   Enviando...
                 </span>
               ) : currentStep === 'complementares' ? (
-                'Enviar inscrição'
+                isEditMode ? 'Atualizar inscrição' : 'Enviar inscrição'
               ) : (
                 'Próximo'
               )}
