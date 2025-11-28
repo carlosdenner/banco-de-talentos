@@ -120,9 +120,9 @@ file_size_limit = "50MiB"
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "http://127.0.0.1:3000"
+site_url = "https://carlosdenner.github.io/banco-de-talentos"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["https://127.0.0.1:3000"]
+additional_redirect_urls = ["https://carlosdenner.github.io/banco-de-talentos", "http://localhost:5173/banco-de-talentos"]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # JWT issuer URL. If not set, defaults to the local API URL (http://127.0.0.1:<port>/auth/v1).
@@ -195,10 +195,22 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
-# Uncomment to customize email template
-# [auth.email.template.invite]
-# subject = "You have been invited"
-# content_path = "./supabase/templates/invite.html"
+# Email templates personalizados em português
+[auth.email.template.confirmation]
+subject = "Confirme seu e-mail - Banco de Talentos GigaCandanga"
+content_path = "./supabase/templates/confirm.html"
+
+[auth.email.template.recovery]
+subject = "Recupere sua senha - Banco de Talentos GigaCandanga"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.email.template.magic_link]
+subject = "Seu link de acesso - Banco de Talentos GigaCandanga"
+content_path = "./supabase/templates/magic_link.html"
+
+[auth.email.template.invite]
+subject = "Você foi convidado - Banco de Talentos GigaCandanga"
+content_path = "./supabase/templates/confirm.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
