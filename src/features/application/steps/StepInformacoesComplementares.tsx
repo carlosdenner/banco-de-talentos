@@ -1,5 +1,5 @@
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextInput, TextArea, RadioGroup, FileUpload } from '../../../components/FormFields';
+import { TextInput, TextArea, RadioGroup, FileUpload, SectionHeader } from '../../../components/FormFields';
 import type { ApplicationFormData } from '../types';
 import { HOW_DID_YOU_HEAR_OPTIONS } from '../types';
 
@@ -15,9 +15,11 @@ export function StepInformacoesComplementares() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">
-        Informações Complementares
-      </h2>
+      <SectionHeader 
+        icon="📎" 
+        title="Informações Complementares" 
+        subtitle="Últimos detalhes e seu currículo"
+      />
 
       <FileUpload
         label="Anexar Currículo (CV)"

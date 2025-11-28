@@ -7,12 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
+        // GigaCandanga brand colors
         primary: {
-          DEFAULT: '#2563EB',
-          dark: '#1D4ED8',
-          light: '#3B82F6',
+          DEFAULT: '#004A86',  // Congress Blue
+          dark: '#003666',
+          light: '#0066B3',
         },
-        background: '#F3F4F6',
+        accent: {
+          DEFAULT: '#FF9900',  // GigaCandanga Orange
+          dark: '#E68A00',
+          light: '#FFB340',
+        },
+        sky: {
+          DEFAULT: '#A6E1EC',  // Blizzard Blue
+          light: '#D4F1F7',
+        },
+        background: '#F0F9FC',  // Light blue-tinted background
         text: '#111827',
       },
       fontFamily: {

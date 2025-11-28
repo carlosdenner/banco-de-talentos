@@ -35,13 +35,54 @@ export function StepWelcome({ onStart, onOpenAuth }: StepWelcomeProps) {
 
   return (
     <div className="py-4">
+      {/* Hero Section */}
       <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">
+          <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+          Inscrições Abertas
+        </div>
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-          Banco de Talentos – Estágio GigaCandanga
+          Programa de Estágio
+          <span className="block text-primary">GigaCandanga</span>
         </h2>
-        <p className="text-gray-600 max-w-md mx-auto leading-relaxed">
-          Em busca de uma oportunidade para aprender, se desafiar e contribuir com projetos reais? 
-          Preencha seu perfil e faça parte do nosso banco de talentos.
+        <p className="text-gray-600 max-w-lg mx-auto leading-relaxed">
+          Pronto para aprender na prática, se desafiar e contribuir em projetos reais de tecnologia? 
+          Cadastre seu perfil e faça parte do nosso banco de talentos de estagiários.
+        </p>
+      </div>
+
+      {/* Benefits */}
+      <div className="bg-sky-light/50 rounded-xl p-5 mb-8">
+        <h3 className="text-sm font-semibold text-primary mb-3 text-center">
+          Por que fazer parte?
+        </h3>
+        <div className="grid gap-3">
+          <div className="flex items-start gap-3">
+            <span className="text-accent text-lg">🚀</span>
+            <p className="text-sm text-gray-700">
+              <strong>Projetos reais de inovação</strong> — Trabalhe em soluções de infraestrutura, redes e computação em nuvem.
+            </p>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-accent text-lg">📚</span>
+            <p className="text-sm text-gray-700">
+              <strong>Desenvolvimento profissional</strong> — Aprenda ao lado de profissionais experientes.
+            </p>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-accent text-lg">🌟</span>
+            <p className="text-sm text-gray-700">
+              <strong>Rede de talentos</strong> — Seja considerado para futuras oportunidades de estágio.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* About GigaCandanga */}
+      <div className="text-center mb-6 px-4 py-3 bg-gray-50 rounded-lg">
+        <p className="text-xs text-gray-500">
+          A <strong className="text-primary">GigaCandanga</strong> é uma Instituição de Ciência e Tecnologia 
+          que oferece soluções inovadoras em infraestrutura de redes, conectividade e P&D.
         </p>
       </div>
 

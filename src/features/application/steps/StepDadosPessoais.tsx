@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-import { TextInput } from '../../../components/FormFields';
+import { TextInput, SectionHeader } from '../../../components/FormFields';
 import type { ApplicationFormData } from '../types';
 
 export function StepDadosPessoais() {
@@ -7,9 +7,11 @@ export function StepDadosPessoais() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">
-        Dados Pessoais
-      </h2>
+      <SectionHeader 
+        icon="👤" 
+        title="Dados Pessoais" 
+        subtitle="Informações básicas sobre você"
+      />
       
       <TextInput
         label="Nome completo"

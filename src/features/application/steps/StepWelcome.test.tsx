@@ -21,13 +21,14 @@ describe('StepWelcome', () => {
   it('renders welcome title', () => {
     renderStepWelcome();
     
-    expect(screen.getByText('Banco de Talentos – Estágio GigaCandanga')).toBeInTheDocument();
+    expect(screen.getByText('Programa de Estágio')).toBeInTheDocument();
+    expect(screen.getAllByText('GigaCandanga').length).toBeGreaterThan(0);
   });
 
   it('renders welcome subtitle', () => {
     renderStepWelcome();
     
-    expect(screen.getByText(/Em busca de uma oportunidade/)).toBeInTheDocument();
+    expect(screen.getByText(/Pronto para aprender na prática/)).toBeInTheDocument();
   });
 
   it('renders login button when not authenticated', async () => {

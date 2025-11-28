@@ -1,5 +1,5 @@
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextArea, RadioGroup } from '../../../components/FormFields';
+import { TextArea, RadioGroup, SectionHeader } from '../../../components/FormFields';
 import type { ApplicationFormData } from '../types';
 
 export function StepExperienciasHabilidades() {
@@ -12,9 +12,11 @@ export function StepExperienciasHabilidades() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">
-        Experiências e Habilidades
-      </h2>
+      <SectionHeader 
+        icon="💼" 
+        title="Experiências e Habilidades" 
+        subtitle="Suas competências técnicas"
+      />
 
       <TextArea
         label="Liste ferramentas, linguagens ou softwares que domina ou tem familiaridade"

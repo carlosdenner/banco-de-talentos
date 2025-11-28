@@ -1,5 +1,5 @@
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextArea, CheckboxGroup } from '../../../components/FormFields';
+import { TextArea, CheckboxGroup, SectionHeader } from '../../../components/FormFields';
 import type { ApplicationFormData } from '../types';
 import { INTEREST_AREAS_OPTIONS } from '../types';
 
@@ -9,9 +9,11 @@ export function StepAreasInteresse() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">
-        Áreas de Interesse
-      </h2>
+      <SectionHeader 
+        icon="🎯" 
+        title="Áreas de Interesse" 
+        subtitle="O que você gostaria de explorar?"
+      />
 
       <Controller
         name="interest_areas"

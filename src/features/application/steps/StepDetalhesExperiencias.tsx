@@ -1,5 +1,5 @@
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextInput, TextArea, RadioGroup } from '../../../components/FormFields';
+import { TextInput, TextArea, RadioGroup, SectionHeader } from '../../../components/FormFields';
 import type { ApplicationFormData } from '../types';
 import { EXPERIENCE_TYPE_OPTIONS } from '../types';
 
@@ -14,9 +14,11 @@ export function StepDetalhesExperiencias() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">
-        Detalhes das Experiências Anteriores
-      </h2>
+      <SectionHeader 
+        icon="📋" 
+        title="Detalhes das Experiências" 
+        subtitle="Conte-nos sobre sua trajetória"
+      />
 
       <Controller
         name="experience_type"

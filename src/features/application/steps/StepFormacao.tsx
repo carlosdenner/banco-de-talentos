@@ -1,5 +1,5 @@
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextInput, RadioGroup, Select } from '../../../components/FormFields';
+import { TextInput, RadioGroup, Select, SectionHeader } from '../../../components/FormFields';
 import type { ApplicationFormData } from '../types';
 import { PERIOD_OPTIONS, SHIFT_OPTIONS, MONTHS } from '../types';
 
@@ -11,9 +11,11 @@ export function StepFormacao() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">
-        Formação Acadêmica
-      </h2>
+      <SectionHeader 
+        icon="🎓" 
+        title="Formação Acadêmica" 
+        subtitle="Conte-nos sobre seus estudos"
+      />
 
       <TextInput
         label="Instituição de ensino"
