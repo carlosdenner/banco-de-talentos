@@ -19,6 +19,11 @@ test.describe('Application Flow', () => {
     await expect(page.getByRole('heading', { name: 'Entrar' })).toBeVisible();
   });
 
+  test('shows opportunities section or empty message', async ({ page }) => {
+    // Wait for opportunities to load
+    await expect(page.getByText(/Oportunidades Disponíveis|Nenhuma oportunidade aberta/)).toBeVisible({ timeout: 10000 });
+  });
+
   // Authenticated tests are in application.auth.spec.ts
 });
 

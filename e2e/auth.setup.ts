@@ -41,8 +41,8 @@ setup('authenticate', async ({ page }) => {
   // Wait for successful login - user email should appear in header
   await expect(page.getByText(email)).toBeVisible({ timeout: 10000 });
   
-  // Verify "Começar" button is now visible (authenticated state)
-  await expect(page.getByRole('button', { name: 'Começar' })).toBeVisible();
+  // Verify start button is now visible (authenticated state)
+  await expect(page.getByRole('button', { name: /Começar|Candidatar/ })).toBeVisible();
   
   // Save signed-in state
   await page.context().storageState({ path: authFile });

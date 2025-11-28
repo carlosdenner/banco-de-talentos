@@ -54,4 +54,19 @@ describe('StepWelcome', () => {
     
     expect(onOpenAuth).toHaveBeenCalledTimes(1);
   });
+
+  it('shows loading message for opportunities', () => {
+    renderStepWelcome();
+    
+    expect(screen.getByText('Carregando oportunidades...')).toBeInTheDocument();
+  });
+
+  it('shows message when no opportunities available', async () => {
+    renderStepWelcome();
+    
+    // Wait for loading to finish (mock returns empty array)
+    await waitFor(() => {
+      expect(screen.getByText(/Nenhuma oportunidade aberta no momento/)).toBeInTheDocument();
+    });
+  });
 });

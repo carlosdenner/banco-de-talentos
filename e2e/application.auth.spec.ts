@@ -3,14 +3,16 @@ import { test, expect } from '@playwright/test';
 /**
  * Tests that require authentication
  * These tests use the storage state from auth.setup.ts
+ * Test user: test@gigacandanga.com (non-admin)
  */
 test.describe('Authenticated Application Flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
 
-  test('shows Começar button when authenticated', async ({ page }) => {
-    await expect(page.getByRole('button', { name: 'Começar' })).toBeVisible();
+  test('shows start button when authenticated', async ({ page }) => {
+    // Button text varies: "Começar Cadastro" (no opportunity) or "Candidatar-se" (with opportunity)
+    await expect(page.getByRole('button', { name: /Começar|Candidatar/ })).toBeVisible();
   });
 
   test('shows user email in header', async ({ page }) => {
@@ -18,9 +20,14 @@ test.describe('Authenticated Application Flow', () => {
     await expect(page.getByRole('banner').getByText('@')).toBeVisible();
   });
 
+  test('shows opportunities section', async ({ page }) => {
+    // Should show opportunities or empty message
+    await expect(page.getByText(/Oportunidades Disponíveis|Nenhuma oportunidade aberta/)).toBeVisible({ timeout: 10000 });
+  });
+
   test('navigates through the wizard steps', async ({ page }) => {
-    // Start wizard
-    await page.getByRole('button', { name: 'Começar' }).click();
+    // Start wizard - click first button that matches
+    await page.getByRole('button', { name: /Começar|Candidatar/ }).click();
     
     // Step 1: Dados Pessoais
     await expect(page.getByText('Passo 1 de 7')).toBeVisible();
@@ -40,7 +47,7 @@ test.describe('Authenticated Application Flow', () => {
   });
 
   test('validates required fields before proceeding', async ({ page }) => {
-    await page.getByRole('button', { name: 'Começar' }).click();
+    await page.getByRole('button', { name: /Começar|Candidatar/ }).click();
     
     // Wait for form to be visible
     await expect(page.getByPlaceholder('Seu nome completo')).toBeVisible();
@@ -54,7 +61,7 @@ test.describe('Authenticated Application Flow', () => {
   });
 
   test('back button navigates to previous step', async ({ page }) => {
-    await page.getByRole('button', { name: 'Começar' }).click();
+    await page.getByRole('button', { name: /Começar|Candidatar/ }).click();
     
     // Fill step 1
     await page.getByPlaceholder('Seu nome completo').fill('Usuário Teste');
@@ -76,7 +83,7 @@ test.describe('Authenticated Application Flow', () => {
   });
 
   test('shows progress bar with correct step', async ({ page }) => {
-    await page.getByRole('button', { name: 'Começar' }).click();
+    await page.getByRole('button', { name: /Começar|Candidatar/ }).click();
     
     const progressBar = page.locator('.bg-primary.h-2.rounded-full');
     await expect(progressBar).toBeVisible();
