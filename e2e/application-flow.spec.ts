@@ -19,22 +19,7 @@ test.describe('Application Flow', () => {
     await expect(page.getByRole('heading', { name: 'Entrar' })).toBeVisible();
   });
 
-  // These tests require authentication - skipping until auth fixtures are set up
-  test.skip('navigates through the wizard steps (requires auth)', async ({ page }) => {
-    // This test requires user to be authenticated first
-  });
-
-  test.skip('validates required fields before proceeding (requires auth)', async ({ page }) => {
-    // This test requires user to be authenticated first
-  });
-
-  test.skip('back button navigates to previous step (requires auth)', async ({ page }) => {
-    // This test requires user to be authenticated first
-  });
-
-  test.skip('shows progress bar with correct step (requires auth)', async ({ page }) => {
-    // This test requires user to be authenticated first
-  });
+  // Authenticated tests are in application.auth.spec.ts
 });
 
 test.describe('Authentication', () => {

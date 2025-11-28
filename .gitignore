@@ -2,6 +2,10 @@
 .env
 .env.local
 .env.*.local
+.env.test
+
+# Auth storage state (Playwright)
+.auth/
 
 # Logs
 logs
