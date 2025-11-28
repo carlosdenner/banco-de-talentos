@@ -69,6 +69,7 @@ export type ApplicationDbPayload = {
   how_did_you_hear_other: string | null;
   cv_url: string | null;
   user_id: string | null;
+  opportunity_id: string | null;
 };
 
 export type ApplicationRecord = ApplicationDbPayload & {

@@ -103,6 +103,7 @@ function transformToDbPayload(data: ApplicationFormData): ApplicationDbPayload {
     how_did_you_hear_other: data.how_did_you_hear === 'Outro' ? data.how_did_you_hear_other || null : null,
     cv_url: data.cv_url || null,
     user_id: null, // Will be set in onSubmit
+    opportunity_id: null, // Will be set in onSubmit
   };
 }
 
@@ -147,6 +148,7 @@ export function ApplicationWizard({ onOpenAuth }: ApplicationWizardProps) {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [existingApplicationId, setExistingApplicationId] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedOpportunityId, setSelectedOpportunityId] = useState<string | null>(null);
   const { user } = useAuth();
 
   const methods = useForm<ApplicationFormData>({
@@ -239,6 +241,7 @@ export function ApplicationWizard({ onOpenAuth }: ApplicationWizardProps) {
     try {
       const payload = transformToDbPayload(data);
       payload.user_id = user?.id || null;
+      payload.opportunity_id = selectedOpportunityId;
       
       let error;
       
@@ -280,7 +283,15 @@ export function ApplicationWizard({ onOpenAuth }: ApplicationWizardProps) {
   const renderStep = () => {
     switch (currentStep) {
       case 'welcome':
-        return <StepWelcome onStart={() => setCurrentStep('dados')} onOpenAuth={onOpenAuth || (() => {})} />;
+        return (
+          <StepWelcome 
+            onStart={(opportunityId) => {
+              setSelectedOpportunityId(opportunityId || null);
+              setCurrentStep('dados');
+            }} 
+            onOpenAuth={onOpenAuth || (() => {})} 
+          />
+        );
       case 'dados':
         return <StepDadosPessoais />;
       case 'formacao':
