@@ -17,9 +17,15 @@ dist
 dist-ssr
 *.local
 
+# Test results
+test-results/
+playwright-report/
+coverage/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo

@@ -20,7 +20,7 @@ test.describe('Application Flow', () => {
     
     // Fill personal data
     await page.getByPlaceholder('Seu nome completo').fill('João da Silva');
-    await page.getByLabel('Data de nascimento').fill('2000-01-15');
+    await page.locator('input[type="date"]').fill('2000-01-15');
     await page.getByPlaceholder('seu@email.com').fill('joao@teste.com');
     await page.getByPlaceholder('(61) 99999-9999').fill('61999999999');
     await page.getByPlaceholder('Ex: Brasília - DF').fill('Brasília - DF');
@@ -35,11 +35,14 @@ test.describe('Application Flow', () => {
   test('validates required fields before proceeding', async ({ page }) => {
     await page.getByRole('button', { name: 'Começar' }).click();
     
+    // Wait for form to be visible
+    await expect(page.getByPlaceholder('Seu nome completo')).toBeVisible();
+    
     // Try to proceed without filling fields
     await page.getByRole('button', { name: 'Próximo' }).click();
     
-    // Should stay on step 1 and show errors
-    await expect(page.getByText('Dados Pessoais')).toBeVisible();
+    // Should still see step 1 form fields (validation prevented navigation)
+    await expect(page.getByPlaceholder('Seu nome completo')).toBeVisible();
   });
 
   test('back button navigates to previous step', async ({ page }) => {
@@ -47,7 +50,7 @@ test.describe('Application Flow', () => {
     
     // Fill step 1
     await page.getByPlaceholder('Seu nome completo').fill('João da Silva');
-    await page.getByLabel('Data de nascimento').fill('2000-01-15');
+    await page.locator('input[type="date"]').fill('2000-01-15');
     await page.getByPlaceholder('seu@email.com').fill('joao@teste.com');
     await page.getByPlaceholder('(61) 99999-9999').fill('61999999999');
     await page.getByPlaceholder('Ex: Brasília - DF').fill('Brasília');
@@ -105,8 +108,8 @@ test.describe('Authentication', () => {
     await page.getByRole('button', { name: 'Entrar / Cadastrar' }).click();
     await expect(page.getByRole('heading', { name: 'Entrar' })).toBeVisible();
     
-    // Click close button (X)
-    await page.locator('.bg-white.rounded-xl button').first().click();
+    // Click close button (X) - the button with SVG inside the modal header
+    await page.locator('.bg-white.rounded-xl .flex.justify-between button').click();
     
     await expect(page.getByRole('heading', { name: 'Entrar' })).not.toBeVisible();
   });
@@ -117,7 +120,8 @@ test.describe('Mobile Responsiveness', () => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
     
-    await expect(page.getByText('GigaCandanga')).toBeVisible();
+    // Use specific heading role for header logo
+    await expect(page.getByRole('heading', { name: 'GigaCandanga', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Começar' })).toBeVisible();
   });
 
@@ -127,7 +131,7 @@ test.describe('Mobile Responsiveness', () => {
     
     await page.getByRole('button', { name: 'Começar' }).click();
     
-    await expect(page.getByText('Dados Pessoais')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Dados Pessoais' })).toBeVisible();
     await expect(page.getByText('Passo 1 de 7')).toBeVisible();
   });
 });

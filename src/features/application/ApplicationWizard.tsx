@@ -147,10 +147,11 @@ export function ApplicationWizard() {
 
   const methods = useForm<ApplicationFormData>({
     defaultValues,
-    mode: 'onBlur',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
 
-  const { handleSubmit, trigger, watch, reset } = methods;
+  const { handleSubmit, trigger, watch, reset, getValues } = methods;
   const hasExperience = watch('has_experience');
 
   // Load existing application for logged-in users
@@ -202,9 +203,18 @@ export function ApplicationWizard() {
     const schema = getStepSchema(currentStep, hasExperience);
     const fields = Object.keys(schema.shape) as (keyof ApplicationFormData)[];
     
+    // Trigger react-hook-form validation
     const isValid = await trigger(fields);
     
-    if (isValid) {
+    // Double-check with Zod schema validation
+    const currentValues = getValues();
+    const stepData: Record<string, unknown> = {};
+    fields.forEach(field => {
+      stepData[field] = currentValues[field];
+    });
+    const zodResult = schema.safeParse(stepData);
+    
+    if (isValid && zodResult.success) {
       if (currentStep === 'complementares') {
         // Submit the form
         handleSubmit(onSubmit)();
