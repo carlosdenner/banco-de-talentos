@@ -39,6 +39,9 @@ export type ApplicationFormData = {
 
   // CV Upload
   cv_url?: string;
+
+  // LGPD Consent
+  lgpd_consent: boolean;
 };
 
 export type ApplicationDbPayload = {
@@ -68,6 +71,8 @@ export type ApplicationDbPayload = {
   how_did_you_hear: string;
   how_did_you_hear_other: string | null;
   cv_url: string | null;
+  lgpd_consent: boolean;
+  lgpd_consent_date: string | null;
   user_id: string | null;
   opportunity_id: string | null;
 };

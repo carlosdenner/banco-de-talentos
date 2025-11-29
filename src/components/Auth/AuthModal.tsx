@@ -9,7 +9,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
-  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [mode, setMode] = useState<'login' | 'register' | 'forgot'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,7 +17,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, resetPassword } = useAuth();
 
   if (!isOpen) return null;
 
@@ -33,14 +33,21 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
       return;
     }
 
-    if (password.length < 6) {
+    if (mode !== 'forgot' && password.length < 6) {
       setError('A senha deve ter pelo menos 6 caracteres');
       setLoading(false);
       return;
     }
 
     try {
-      if (mode === 'login') {
+      if (mode === 'forgot') {
+        const { error } = await resetPassword(email);
+        if (error) {
+          setError('Erro ao enviar e-mail. Verifique o endereço informado.');
+        } else {
+          setSuccessMessage('E-mail enviado! Verifique sua caixa de entrada para redefinir sua senha.');
+        }
+      } else if (mode === 'login') {
         const { error } = await signIn(email, password);
         if (error) {
           setError('E-mail ou senha incorretos');
@@ -72,7 +79,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
       <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold text-gray-900">
-            {mode === 'login' ? 'Entrar' : 'Criar Conta'}
+            {mode === 'login' ? 'Entrar' : mode === 'register' ? 'Criar Conta' : 'Recuperar Senha'}
           </h2>
           <button
             onClick={onClose}
@@ -119,14 +126,16 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
               placeholder="seu@email.com"
             />
 
-            <TextInput
-              label="Senha"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="••••••••"
-            />
+            {mode !== 'forgot' && (
+              <TextInput
+                label="Senha"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="••••••••"
+              />
+            )}
 
             {mode === 'register' && (
               <TextInput
@@ -137,6 +146,12 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 required
                 placeholder="••••••••"
               />
+            )}
+
+            {mode === 'forgot' && (
+              <p className="text-sm text-gray-600 -mt-2 mb-4">
+                Digite seu e-mail e enviaremos um link para redefinir sua senha.
+              </p>
             )}
 
             <button
@@ -150,8 +165,18 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 mt-2
               "
             >
-              {loading ? 'Aguarde...' : mode === 'login' ? 'Entrar' : 'Criar Conta'}
+              {loading ? 'Aguarde...' : mode === 'login' ? 'Entrar' : mode === 'register' ? 'Criar Conta' : 'Enviar Link'}
             </button>
+
+            {mode === 'login' && (
+              <button
+                type="button"
+                onClick={() => setMode('forgot')}
+                className="w-full text-center text-sm text-gray-500 hover:text-primary mt-3"
+              >
+                Esqueci minha senha
+              </button>
+            )}
 
             <p className="text-center text-sm text-gray-600 mt-4">
               {mode === 'login' ? (
@@ -167,7 +192,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 </>
               ) : (
                 <>
-                  Já tem uma conta?{' '}
+                  {mode === 'forgot' ? 'Lembrou a senha?' : 'Já tem uma conta?'}{' '}
                   <button
                     type="button"
                     onClick={() => setMode('login')}

@@ -163,10 +163,11 @@ describe('Validation Schemas', () => {
   });
 
   describe('stepInformacoesComplementaresSchema', () => {
-    it('validates correct data', () => {
+    it('validates correct data with LGPD consent', () => {
       const validData = {
         extra_info: 'Tenho disponibilidade imediata',
         how_did_you_hear: 'LinkedIn',
+        lgpd_consent: true,
       };
       
       const result = stepInformacoesComplementaresSchema.safeParse(validData);
@@ -176,10 +177,30 @@ describe('Validation Schemas', () => {
     it('allows empty extra_info', () => {
       const validData = {
         how_did_you_hear: 'Indicação',
+        lgpd_consent: true,
       };
       
       const result = stepInformacoesComplementaresSchema.safeParse(validData);
       expect(result.success).toBe(true);
+    });
+
+    it('rejects when LGPD consent is false', () => {
+      const invalidData = {
+        how_did_you_hear: 'LinkedIn',
+        lgpd_consent: false,
+      };
+      
+      const result = stepInformacoesComplementaresSchema.safeParse(invalidData);
+      expect(result.success).toBe(false);
+    });
+
+    it('rejects when LGPD consent is missing', () => {
+      const invalidData = {
+        how_did_you_hear: 'LinkedIn',
+      };
+      
+      const result = stepInformacoesComplementaresSchema.safeParse(invalidData);
+      expect(result.success).toBe(false);
     });
   });
 });

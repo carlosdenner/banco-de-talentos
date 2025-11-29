@@ -19,6 +19,7 @@ const defaultFormValues: ApplicationFormData = {
   contributions: '',
   has_experience: false,
   how_did_you_hear: '',
+  lgpd_consent: false,
 };
 
 interface FormWrapperProps {

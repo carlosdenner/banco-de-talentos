@@ -53,6 +53,7 @@ const defaultValues: ApplicationFormData = {
   contributions: '',
   has_experience: false,
   how_did_you_hear: '',
+  lgpd_consent: false,
 };
 
 function getStepSchema(step: Step, hasExperience: boolean) {
@@ -102,6 +103,8 @@ function transformToDbPayload(data: ApplicationFormData): ApplicationDbPayload {
     how_did_you_hear: data.how_did_you_hear === 'Outro' ? data.how_did_you_hear_other || 'Outro' : data.how_did_you_hear,
     how_did_you_hear_other: data.how_did_you_hear === 'Outro' ? data.how_did_you_hear_other || null : null,
     cv_url: data.cv_url || null,
+    lgpd_consent: data.lgpd_consent,
+    lgpd_consent_date: data.lgpd_consent ? new Date().toISOString() : null,
     user_id: null, // Will be set in onSubmit
     opportunity_id: null, // Will be set in onSubmit
   };
@@ -135,21 +138,23 @@ function recordToFormData(record: ApplicationRecord): ApplicationFormData {
     how_did_you_hear: record.how_did_you_hear,
     how_did_you_hear_other: record.how_did_you_hear_other || undefined,
     cv_url: record.cv_url || undefined,
+    lgpd_consent: record.lgpd_consent,
   };
 }
 
 interface ApplicationWizardProps {
   onOpenAuth?: () => void;
+  onOpenPrivacyPolicy?: () => void;
 }
 
-export function ApplicationWizard({ onOpenAuth }: ApplicationWizardProps) {
+export function ApplicationWizard({ onOpenAuth, onOpenPrivacyPolicy }: ApplicationWizardProps) {
   const [currentStep, setCurrentStep] = useState<Step>('welcome');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [existingApplicationId, setExistingApplicationId] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedOpportunityId, setSelectedOpportunityId] = useState<string | null>(null);
-  const { user } = useAuth();
+  const { user, isEmailConfirmed } = useAuth();
 
   const methods = useForm<ApplicationFormData>({
     defaultValues,
@@ -235,6 +240,12 @@ export function ApplicationWizard({ onOpenAuth }: ApplicationWizardProps) {
   };
 
   const onSubmit = async (data: ApplicationFormData) => {
+    // Block submission if user is logged in but email not confirmed
+    if (user && !isEmailConfirmed) {
+      setSubmitError('Por favor, confirme seu e-mail antes de enviar a inscrição. Verifique sua caixa de entrada.');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
 
@@ -303,7 +314,7 @@ export function ApplicationWizard({ onOpenAuth }: ApplicationWizardProps) {
       case 'detalhes':
         return <StepDetalhesExperiencias />;
       case 'complementares':
-        return <StepInformacoesComplementares />;
+        return <StepInformacoesComplementares onOpenPrivacyPolicy={onOpenPrivacyPolicy} />;
       case 'sucesso':
         return <StepSucesso onReset={handleReset} />;
       default:

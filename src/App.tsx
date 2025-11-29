@@ -3,11 +3,12 @@ import { AppShell } from './components/Layout';
 import { ApplicationWizard } from './features/application/ApplicationWizard';
 import { AdminDashboard } from './features/admin';
 import { OpportunitiesManager } from './features/opportunities';
+import { PrivacyPolicy } from './features/privacy';
 import { AuthModal } from './components/Auth';
 import { useAuth } from './lib/authContext';
 import { isAdminEmail } from './lib/adminConfig';
 
-type View = 'form' | 'applications' | 'opportunities';
+type View = 'form' | 'applications' | 'opportunities' | 'privacy';
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -18,7 +19,7 @@ function App() {
 
   return (
     <>
-      <AppShell onOpenAuth={() => setShowAuthModal(true)}>
+      <AppShell onOpenAuth={() => setShowAuthModal(true)} onOpenPrivacyPolicy={() => setCurrentView('privacy')}>
         {/* Admin tab switcher */}
         {isAdmin && (
           <div className="mb-6 flex flex-wrap gap-2 border-b border-gray-200 pb-4">
@@ -56,12 +57,17 @@ function App() {
         )}
 
         {/* Content */}
-        {currentView === 'applications' && isAdmin ? (
+        {currentView === 'privacy' ? (
+          <PrivacyPolicy onBack={() => setCurrentView('form')} />
+        ) : currentView === 'applications' && isAdmin ? (
           <AdminDashboard />
         ) : currentView === 'opportunities' && isAdmin ? (
           <OpportunitiesManager />
         ) : (
-          <ApplicationWizard onOpenAuth={() => setShowAuthModal(true)} />
+          <ApplicationWizard 
+            onOpenAuth={() => setShowAuthModal(true)} 
+            onOpenPrivacyPolicy={() => setCurrentView('privacy')}
+          />
         )}
       </AppShell>
       

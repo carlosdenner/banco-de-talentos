@@ -1,10 +1,11 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useAuth } from '../../lib/authContext';
 import { useTheme } from '../../lib/themeContext';
 
 interface AppShellProps {
   children: ReactNode;
   onOpenAuth: () => void;
+  onOpenPrivacyPolicy?: () => void;
 }
 
 function Logo() {
@@ -59,8 +60,23 @@ function ThemeToggle() {
   );
 }
 
-export function AppShell({ children, onOpenAuth }: AppShellProps) {
-  const { user, signOut, loading } = useAuth();
+export function AppShell({ children, onOpenAuth, onOpenPrivacyPolicy }: AppShellProps) {
+  const { user, signOut, loading, isEmailConfirmed, resendConfirmationEmail } = useAuth();
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
+
+  const handleResendConfirmation = async () => {
+    if (!user?.email) return;
+    setResendLoading(true);
+    setResendMessage(null);
+    const { error } = await resendConfirmationEmail(user.email);
+    if (error) {
+      setResendMessage('Erro ao reenviar. Tente novamente.');
+    } else {
+      setResendMessage('E-mail enviado! Verifique sua caixa de entrada.');
+    }
+    setResendLoading(false);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 transition-colors">
@@ -104,7 +120,37 @@ export function AppShell({ children, onOpenAuth }: AppShellProps) {
 
       {/* Main Content */}
       <div className="max-w-2xl mx-auto px-4 py-8">
-        {user && (
+        {user && !isEmailConfirmed && (
+          <div className="mb-4 px-4 py-3 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700 rounded-lg">
+            <div className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
+                  E-mail não confirmado
+                </p>
+                <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                  Para enviar sua inscrição, confirme seu e-mail clicando no link que enviamos para <strong>{user.email}</strong>.
+                </p>
+                {resendMessage && (
+                  <p className={`text-sm mt-2 ${resendMessage.includes('Erro') ? 'text-red-600' : 'text-green-600 dark:text-green-400'}`}>
+                    {resendMessage}
+                  </p>
+                )}
+                <button
+                  onClick={handleResendConfirmation}
+                  disabled={resendLoading}
+                  className="mt-2 text-sm text-amber-800 dark:text-amber-200 underline hover:no-underline disabled:opacity-50"
+                >
+                  {resendLoading ? 'Enviando...' : 'Reenviar e-mail de confirmação'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {user && isEmailConfirmed && (
           <div className="mb-4 px-4 py-2 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-lg text-center">
             <p className="text-sm text-green-700 dark:text-green-300">
               ✓ Você está logado. Seu perfil será salvo e poderá ser editado.
@@ -136,6 +182,12 @@ export function AppShell({ children, onOpenAuth }: AppShellProps) {
               >
                 Sobre a GigaCandanga
               </a>
+              <button
+                onClick={onOpenPrivacyPolicy}
+                className="hover:text-orange-400 transition-colors"
+              >
+                Política de Privacidade
+              </button>
               <a 
                 href="mailto:suporte@gigacandanga.net.br"
                 className="hover:text-orange-400 transition-colors"
