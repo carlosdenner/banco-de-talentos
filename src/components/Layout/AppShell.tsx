@@ -137,10 +137,10 @@ export function AppShell({ children, onOpenAuth }: AppShellProps) {
                 Sobre a GigaCandanga
               </a>
               <a 
-                href="mailto:contatos@gigacandanga.net.br"
+                href="mailto:suporte@gigacandanga.net.br"
                 className="hover:text-orange-400 transition-colors"
               >
-                contatos@gigacandanga.net.br
+                suporte@gigacandanga.net.br
               </a>
             </div>
           </div>
