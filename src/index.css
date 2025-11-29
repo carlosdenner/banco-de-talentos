@@ -1,10 +1,13 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-primary: #2563EB;
-  --color-primary-dark: #1D4ED8;
-  --color-primary-light: #3B82F6;
+  --color-primary: #004A86;
+  --color-primary-dark: #003666;
+  --color-primary-light: #0066B3;
+  --color-accent: #FF9900;
   --color-background: #F3F4F6;
   --color-text: #111827;
   --font-family-sans: 'Inter', system-ui, sans-serif;
