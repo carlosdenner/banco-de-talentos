@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -22,8 +23,15 @@ export default {
           DEFAULT: '#A6E1EC',  // Blizzard Blue
           light: '#D4F1F7',
         },
-        background: '#F0F9FC',  // Light blue-tinted background
-        text: '#111827',
+        surface: {
+          light: '#F8FAFC',
+          DEFAULT: '#E2E8F0',
+          dark: '#1E293B',
+        },
+        background: {
+          light: '#E8F4F8',
+          dark: '#0F172A',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
