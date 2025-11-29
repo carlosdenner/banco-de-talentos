@@ -37,51 +37,51 @@ export function StepWelcome({ onStart, onOpenAuth }: StepWelcomeProps) {
     <div className="py-4">
       {/* Hero Section */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-accent/10 dark:bg-accent/20 text-accent rounded-full text-sm font-medium mb-4">
-          <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm font-medium mb-4">
+          <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
           Inscrições Abertas
         </div>
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">
           Programa de Estágio
-          <span className="block text-primary dark:text-blue-400">GigaCandanga</span>
+          <span className="block text-blue-700 dark:text-blue-400">GigaCandanga</span>
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 max-w-lg mx-auto leading-relaxed">
+        <p className="text-slate-600 dark:text-slate-300 max-w-lg mx-auto leading-relaxed">
           Pronto para aprender na prática, se desafiar e contribuir em projetos reais de tecnologia? 
           Cadastre seu perfil e faça parte do nosso banco de talentos de estagiários.
         </p>
       </div>
 
       {/* Benefits */}
-      <div className="bg-sky-light/50 dark:bg-blue-900/20 rounded-xl p-5 mb-8 border border-transparent dark:border-blue-800/30">
-        <h3 className="text-sm font-semibold text-primary dark:text-blue-400 mb-3 text-center">
+      <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-5 mb-8 border border-blue-100 dark:border-blue-800/50">
+        <h3 className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-3 text-center">
           Por que fazer parte?
         </h3>
         <div className="grid gap-3">
           <div className="flex items-start gap-3">
-            <span className="text-accent text-lg">🚀</span>
-            <p className="text-sm text-gray-700 dark:text-gray-300">
-              <strong className="dark:text-white">Projetos reais de inovação</strong> — Trabalhe em soluções de infraestrutura, redes e computação em nuvem.
+            <span className="text-lg">🚀</span>
+            <p className="text-sm text-slate-700 dark:text-slate-300">
+              <strong className="text-slate-900 dark:text-white">Projetos reais de inovação</strong> — Trabalhe em soluções de infraestrutura, redes e computação em nuvem.
             </p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="text-accent text-lg">📚</span>
-            <p className="text-sm text-gray-700 dark:text-gray-300">
-              <strong className="dark:text-white">Desenvolvimento profissional</strong> — Aprenda ao lado de profissionais experientes.
+            <span className="text-lg">📚</span>
+            <p className="text-sm text-slate-700 dark:text-slate-300">
+              <strong className="text-slate-900 dark:text-white">Desenvolvimento profissional</strong> — Aprenda ao lado de profissionais experientes.
             </p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="text-accent text-lg">🌟</span>
-            <p className="text-sm text-gray-700 dark:text-gray-300">
-              <strong className="dark:text-white">Rede de talentos</strong> — Seja considerado para futuras oportunidades de estágio.
+            <span className="text-lg">🌟</span>
+            <p className="text-sm text-slate-700 dark:text-slate-300">
+              <strong className="text-slate-900 dark:text-white">Rede de talentos</strong> — Seja considerado para futuras oportunidades de estágio.
             </p>
           </div>
         </div>
       </div>
 
       {/* About GigaCandanga */}
-      <div className="text-center mb-6 px-4 py-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-transparent dark:border-gray-700">
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          A <strong className="text-primary dark:text-blue-400">GigaCandanga</strong> é uma Instituição de Ciência e Tecnologia 
+      <div className="text-center mb-6 px-4 py-3 bg-slate-100 dark:bg-slate-700/50 rounded-lg border border-slate-200 dark:border-slate-600">
+        <p className="text-xs text-slate-600 dark:text-slate-300">
+          A <strong className="text-blue-700 dark:text-blue-400">GigaCandanga</strong> é uma Instituição de Ciência e Tecnologia 
           que oferece soluções inovadoras em infraestrutura de redes, conectividade e P&D.
         </p>
       </div>

@@ -63,9 +63,9 @@ export function AppShell({ children, onOpenAuth }: AppShellProps) {
   const { user, signOut, loading } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-light to-white dark:from-background-dark dark:to-surface-dark transition-colors">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 transition-colors">
       {/* Header Bar */}
-      <header className="bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
+      <header className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-4xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <Logo />
@@ -77,12 +77,12 @@ export function AppShell({ children, onOpenAuth }: AppShellProps) {
                 <div className="flex items-center gap-3">
                   {user ? (
                     <>
-                      <span className="text-sm text-gray-600 dark:text-gray-300 hidden md:inline truncate max-w-[200px]">
+                      <span className="text-sm text-slate-600 dark:text-slate-300 hidden md:inline truncate max-w-[200px]">
                         {user.email}
                       </span>
                       <button
                         onClick={() => signOut()}
-                        className="text-sm px-3 py-1.5 text-primary dark:text-blue-400 border border-primary dark:border-blue-400 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-blue-500 transition-colors"
+                        className="text-sm px-3 py-1.5 text-blue-700 dark:text-blue-400 border border-blue-700 dark:border-blue-400 rounded-lg hover:bg-blue-700 hover:text-white dark:hover:bg-blue-500 transition-colors"
                       >
                         Sair
                       </button>
@@ -90,7 +90,7 @@ export function AppShell({ children, onOpenAuth }: AppShellProps) {
                   ) : (
                     <button
                       onClick={onOpenAuth}
-                      className="px-4 py-2 text-sm bg-accent text-white font-medium rounded-lg hover:bg-accent-dark transition-colors shadow-md"
+                      className="px-4 py-2 text-sm bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors shadow-lg"
                     >
                       Entrar / Cadastrar
                     </button>
@@ -112,18 +112,18 @@ export function AppShell({ children, onOpenAuth }: AppShellProps) {
           </div>
         )}
         
-        <main className="bg-white dark:bg-surface-dark rounded-xl shadow-lg dark:shadow-2xl p-6 md:p-8 border border-gray-100 dark:border-gray-700">
+        <main className="bg-white dark:bg-slate-800 rounded-xl shadow-lg dark:shadow-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
           {children}
         </main>
       </div>
 
       {/* Footer */}
-      <footer className="bg-primary dark:bg-gray-900 text-white py-6 mt-8">
+      <footer className="bg-blue-900 dark:bg-slate-900 text-white py-6 mt-8">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
               <p className="font-semibold">GigaCandanga</p>
-              <p className="text-sm text-blue-200 dark:text-gray-400">
+              <p className="text-sm text-blue-200 dark:text-slate-400">
                 Instituição de Ciência e Tecnologia
               </p>
             </div>
@@ -132,19 +132,19 @@ export function AppShell({ children, onOpenAuth }: AppShellProps) {
                 href="https://gigacandanga.net.br" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="hover:text-accent transition-colors"
+                className="hover:text-orange-400 transition-colors"
               >
                 Sobre a GigaCandanga
               </a>
               <a 
                 href="mailto:contatos@gigacandanga.net.br"
-                className="hover:text-accent transition-colors"
+                className="hover:text-orange-400 transition-colors"
               >
                 contatos@gigacandanga.net.br
               </a>
             </div>
           </div>
-          <div className="text-center mt-4 pt-4 border-t border-blue-700 dark:border-gray-700 text-sm text-blue-200 dark:text-gray-400">
+          <div className="text-center mt-4 pt-4 border-t border-blue-700 dark:border-slate-700 text-sm text-blue-200 dark:text-slate-400">
             &copy; {new Date().getFullYear()} GigaCandanga. Todos os direitos reservados.
           </div>
         </div>
