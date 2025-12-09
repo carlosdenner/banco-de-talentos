@@ -46,10 +46,8 @@ Write-Host "[+] Token encontrado. Enviando requisicao...`n" -ForegroundColor Gre
 $body = @{
     SITE_URL = $SITE_URL
     URI_ALLOW_LIST = $REDIRECT_URLS
-    MAILER_URLPATHS_CONFIRMATION = "/banco-de-talentos/auth/callback"
-    MAILER_URLPATHS_RECOVERY = "/banco-de-talentos/auth/callback"
-    MAILER_URLPATHS_INVITE = "/banco-de-talentos/auth/callback"
-    MAILER_URLPATHS_EMAIL_CHANGE = "/banco-de-talentos/auth/callback"
+    MAILER_AUTOCONFIRM = $false
+    ENABLE_SIGNUP = $true
 } | ConvertTo-Json
 
 # Fazer a requisicao

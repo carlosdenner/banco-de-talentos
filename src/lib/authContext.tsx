@@ -88,9 +88,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/banco-de-talentos/`,
-      },
     });
     return { error: error as Error | null };
   };
@@ -111,9 +108,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { error } = await supabase.auth.resend({
       type: 'signup',
       email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/banco-de-talentos/`,
-      },
     });
     return { error: error as Error | null };
   };
