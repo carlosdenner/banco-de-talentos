@@ -24,26 +24,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Handle auth callback from email confirmation links
-    // The hash contains tokens like #access_token=...&type=signup
     const handleAuthCallback = async () => {
+      console.log('[Auth] Checking for auth callback...');
+      console.log('[Auth] Current URL:', window.location.href);
+      console.log('[Auth] Hash:', window.location.hash);
+      console.log('[Auth] Search:', window.location.search);
+      
+      // Check if we have auth tokens in URL (hash or query params)
       const hash = window.location.hash;
-      if (hash && hash.includes('access_token')) {
-        // Let Supabase process the hash
+      const search = window.location.search;
+      
+      if ((hash && (hash.includes('access_token') || hash.includes('type='))) || 
+          (search && (search.includes('access_token') || search.includes('type=')))) {
+        console.log('[Auth] Auth callback detected, processing...');
+        
+        // Let Supabase process the callback automatically
+        // The detectSessionInUrl option should handle this
+        await new Promise(resolve => setTimeout(resolve, 100)); // Small delay for processing
+        
         const { data, error } = await supabase.auth.getSession();
+        console.log('[Auth] Session after callback:', data.session);
+        console.log('[Auth] Error:', error);
+        
         if (error) {
-          console.error('Error processing auth callback:', error);
-        } else if (data.session) {
+          console.error('[Auth] Error processing auth callback:', error);
+        }
+        
+        if (data.session) {
+          console.log('[Auth] Session established, user:', data.session.user.email);
           setSession(data.session);
           setUser(data.session.user);
-          // Clean up the URL hash
+          // Clean up the URL
           window.history.replaceState(null, '', window.location.pathname);
+        } else {
+          console.warn('[Auth] No session after callback processing');
         }
         setLoading(false);
         return;
       }
       
       // Get initial session
+      console.log('[Auth] No callback detected, getting initial session...');
       const { data: { session } } = await supabase.auth.getSession();
+      console.log('[Auth] Initial session:', session);
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
@@ -52,7 +75,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     handleAuthCallback();
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('[Auth] Auth state changed:', event, session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
     });
