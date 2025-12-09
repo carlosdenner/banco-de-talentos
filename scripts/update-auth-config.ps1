@@ -3,7 +3,7 @@
 
 $PROJECT_REF = "pywhtppscqzctzjfzbfe"
 $SITE_URL = "https://carlosdenner.github.io/banco-de-talentos/"
-$REDIRECT_URLS = "https://carlosdenner.github.io/banco-de-talentos/**,http://localhost:5173/banco-de-talentos/**"
+$REDIRECT_URLS = "https://carlosdenner.github.io/banco-de-talentos/**,http://localhost:5173/banco-de-talentos/**,https://carlosdenner.github.io/banco-de-talentos,http://localhost:5173/banco-de-talentos"
 
 Write-Host "`n[*] Atualizando configuracoes de autenticacao...`n" -ForegroundColor Cyan
 
