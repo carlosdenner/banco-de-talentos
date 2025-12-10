@@ -42,7 +42,7 @@ export const stepInformacoesComplementaresSchema = z.object({
   extra_info: z.string().optional(),
   how_did_you_hear: z.string().min(1, 'Selecione uma opção'),
   how_did_you_hear_other: z.string().optional(),
-  lgpd_consent: z.literal(true, 'Você deve aceitar a Política de Privacidade para continuar'),
+  lgpd_consent: z.literal(true, { message: 'Você deve aceitar a Política de Privacidade para continuar' }),
 });
 
 export const fullApplicationSchema = z.object({

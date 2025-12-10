@@ -4,6 +4,7 @@
  */
 export const ADMIN_EMAILS = [
   'carlosdenner@gmail.com',
+  'carlosdenner@unb.br',
   'isadora.lima@gigacandanga.net.br',
   'paulo.angelo@gigacandanga.net.br',
   'andre.drummond@gigacandanga.net.br',

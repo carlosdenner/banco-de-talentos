@@ -250,9 +250,47 @@ export function ApplicationWizard({ onOpenAuth, onOpenPrivacyPolicy }: Applicati
     setSubmitError(null);
 
     try {
+      // Get current session to ensure we have the latest auth state
+      const { data: sessionData } = await supabase.auth.getSession();
+      const currentUserId = sessionData.session?.user?.id || null;
+      
+      console.log('[Submit] Current session user:', currentUserId);
+      console.log('[Submit] User from context:', user?.id);
+      console.log('[Submit] Is edit mode:', isEditMode);
+      console.log('[Submit] Existing application ID:', existingApplicationId);
+
+      // If user context says we're logged in but session is gone, show error
+      if (user && !currentUserId) {
+        setSubmitError('Sua sessão expirou. Por favor, faça login novamente.');
+        return;
+      }
+
       const payload = transformToDbPayload(data);
-      payload.user_id = user?.id || null;
-      payload.opportunity_id = selectedOpportunityId;
+      // Use the session user ID, falling back to context user ID
+      // The session user ID should match auth.uid() for RLS
+      payload.user_id = currentUserId || user?.id || null;
+      
+      // Verify opportunity still exists if one was selected
+      if (selectedOpportunityId) {
+        const { data: oppData, error: oppError } = await supabase
+          .from('opportunities')
+          .select('id')
+          .eq('id', selectedOpportunityId)
+          .eq('is_active', true)
+          .single();
+        
+        if (oppError || !oppData) {
+          console.warn('[Submit] Selected opportunity no longer available:', selectedOpportunityId);
+          payload.opportunity_id = null; // Submit without opportunity
+        } else {
+          payload.opportunity_id = selectedOpportunityId;
+        }
+      } else {
+        payload.opportunity_id = null;
+      }
+      
+      console.log('[Submit] Payload user_id:', payload.user_id);
+      console.log('[Submit] Payload opportunity_id:', payload.opportunity_id);
       
       let error;
       
@@ -273,7 +311,22 @@ export function ApplicationWizard({ onOpenAuth, onOpenPrivacyPolicy }: Applicati
 
       if (error) {
         console.error('Supabase error:', error);
-        setSubmitError('Ocorreu um erro ao enviar sua inscrição. Por favor, tente novamente.');
+        console.error('Supabase error details:', JSON.stringify(error, null, 2));
+        console.error('Payload sent:', JSON.stringify(payload, null, 2));
+        
+        // Provide more specific error messages based on error type
+        let errorMessage = 'Ocorreu um erro ao enviar sua inscrição.';
+        if (error.code === '42501' || error.message?.includes('row-level security')) {
+          errorMessage = 'Erro de permissão. Por favor, faça logout e login novamente.';
+        } else if (error.code === '23503' || error.message?.includes('foreign key')) {
+          errorMessage = 'A oportunidade selecionada não está mais disponível.';
+        } else if (error.code === '23505' || error.message?.includes('duplicate')) {
+          errorMessage = 'Você já possui uma inscrição cadastrada.';
+        } else if (error.message) {
+          errorMessage = `Erro: ${error.message}`;
+        }
+        
+        setSubmitError(`${errorMessage} Por favor, tente novamente.`);
       } else {
         setCurrentStep('sucesso');
       }
