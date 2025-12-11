@@ -404,7 +404,7 @@ export function AdminDashboard() {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {filteredApplications.map((app) => (
-                <tr key={app.id} className="hover:bg-gray-50">
+                <tr key={app.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => setSelectedApp(app)}>
                   <td className="px-4 py-3">
                     <div className="font-medium text-gray-900">{app.full_name}</div>
                     <div className="text-gray-500 text-xs">{app.email}</div>

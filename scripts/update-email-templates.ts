@@ -46,7 +46,7 @@ const templates = {
       <p>Obrigado por se cadastrar no Banco de Talentos da GigaCandanga!</p>
       <p>Para ativar sua conta e acessar as oportunidades de estagio, clique no botao abaixo:</p>
       <p style="text-align: center;">
-        <a href="{{ .ConfirmationURL }}" class="button">Confirmar E-mail</a>
+        <a href="{{ .ConfirmationURL }}" style="display: inline-block; background-color: #f59e0b; color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Confirmar E-mail</a>
       </p>
       <div class="warning">
         <p>Este link expira em 24 horas. Se voce nao solicitou este cadastro, ignore este e-mail.</p>
@@ -85,7 +85,7 @@ const templates = {
       <p>Recebemos uma solicitacao para redefinir a senha da sua conta no Banco de Talentos.</p>
       <p>Clique no botao abaixo para criar uma nova senha:</p>
       <p style="text-align: center;">
-        <a href="{{ .ConfirmationURL }}" class="button">Redefinir Senha</a>
+        <a href="{{ .ConfirmationURL }}" style="display: inline-block; background-color: #f59e0b; color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Redefinir Senha</a>
       </p>
       <div class="warning">
         <p>Este link expira em 1 hora. Se voce nao solicitou a recuperacao de senha, ignore este e-mail - sua conta permanece segura.</p>
@@ -123,7 +123,7 @@ const templates = {
       <h2>Link de Acesso</h2>
       <p>Clique no botao abaixo para acessar sua conta no Banco de Talentos:</p>
       <p style="text-align: center;">
-        <a href="{{ .ConfirmationURL }}" class="button">Acessar Conta</a>
+        <a href="{{ .ConfirmationURL }}" style="display: inline-block; background-color: #f59e0b; color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Acessar Conta</a>
       </p>
       <div class="warning">
         <p>Este link expira em 1 hora e so pode ser usado uma vez.</p>
@@ -162,7 +162,7 @@ const templates = {
       <p>A equipe da GigaCandanga convidou voce para participar do Banco de Talentos.</p>
       <p>Clique no botao abaixo para aceitar o convite e criar sua conta:</p>
       <p style="text-align: center;">
-        <a href="{{ .ConfirmationURL }}" class="button">Aceitar Convite</a>
+        <a href="{{ .ConfirmationURL }}" style="display: inline-block; background-color: #f59e0b; color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Aceitar Convite</a>
       </p>
       <div class="warning">
         <p>Este convite expira em 7 dias.</p>
@@ -201,7 +201,7 @@ const templates = {
       <p>Voce solicitou a alteracao do e-mail da sua conta no Banco de Talentos.</p>
       <p>Clique no botao abaixo para confirmar seu novo endereco de e-mail:</p>
       <p style="text-align: center;">
-        <a href="{{ .ConfirmationURL }}" class="button">Confirmar Novo E-mail</a>
+        <a href="{{ .ConfirmationURL }}" style="display: inline-block; background-color: #f59e0b; color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Confirmar Novo E-mail</a>
       </p>
       <div class="warning">
         <p>Se voce nao solicitou esta alteracao, entre em contato conosco imediatamente.</p>
